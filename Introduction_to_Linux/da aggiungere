@@ -1,0 +1,6 @@
+aggiungere al tutorial su linux il comando:
+
+- screen -S 1 (in ssh al fine di avere più terminali)
+- kill -STOP PID (per pausare un processo)
+- kill -CONT PID (per fare riprendere il processo)
+- cd !$ (a seguito di un 'mv' o 'cp' per effettuare un cambio di cartella rapida)

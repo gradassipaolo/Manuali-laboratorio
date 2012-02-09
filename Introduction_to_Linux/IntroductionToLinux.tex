@@ -1,0 +1,351 @@
+\documentclass[a4paper,10pt,landscape]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+  { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+  {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+  }
+
+\pagestyle{empty}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries\underline}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\underline}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\textit}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+\begin{document}
+
+\raggedright
+\scriptsize
+\begin{multicols}{3}
+  
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+ \Large{\textbf{Introduction to Linux} \\ \url{a2.pluto.it}}  \footnote{Paolo Gradassi, \today }
+\end{center}
+
+based on ``Linux - codice e comandi essenziali'' \\ Scott Granneman
+
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{List directory contents} \\
+   \hline
+   \verb!ls!         & basic listing \\
+   \verb!ls *.dat!   & filtering the listing \\
+   \verb!ls -R!      & recursive listing \\
+   \verb!ls -1!      & one column listing \\
+   \verb!ls -m!      & listing separated by commas \\
+   \verb!ls -a!      & listing including hidden objects \\
+   \verb!ls -F!      & listing with special characters \\
+   \multicolumn{2}{l}{ 
+    \begin{tabular}{ll}
+     $*$ & executable \\
+     $/$ & directory \\
+     $@$ & symbolic link \\
+     $|$ & FIFO \\
+     $=$ & socket 
+    \end{tabular}} \\
+   \verb!ls --color! & colored listing \\
+   \verb!ls -l!      & long (ownership/authorizations) listing \\
+   \verb!ls -r!      & inverted listing \\
+   \verb!ls -X!      & listing by extensions \\
+   \verb!ls -t!      & listing by time and date \\
+   \verb!ls -S!      & listing by dimension \\
+   \verb!ls -h!      & listing with human readable dimensions \\
+   \verb!ls | more!  & listing one page at the time
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Working with files and directories} \\
+   \hline
+   \verb!pwd!      & to print working directory \\
+   \verb!cd!       & to change directory \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt cd     & moves to the directory $/$ \\
+     \tt cd \~  & moves to one's home directory \\
+     \tt cd -   & moves to the preceding directory \\
+     \tt cd ..  & moves to the preceding directory
+    \end{tabular}} \\
+   \verb!mkdir!    & to create a new directory \\
+   \verb!mkdir -v! & to create a new directory in verbose mode \\
+   \verb!mkdir -p! & to create a new directory with its subdirectory \\
+   \verb!touch!    & to create a new file \\
+   \verb!touch -t! & to create a new file with a specific date \\
+   \verb!cp!       & to copy a file or a directory \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     $cp *$  & special copy \\
+     $cp -v$ & copy in verbose mode \\
+     $cp -i$ & copy in interactive mode \\
+     $cp -R$ & copy a directory \\
+     $cp -a$ & archiving, equivalent to $-dpR$
+    \end{tabular}} \\
+   \verb!mv!       & to move or rename files or directories \\
+   \verb!rm!       & to remove files or directories \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     $rm *$   & special remove \\
+     $rm -v$  & remove in verbose mode \\
+     $rm -i$  & remove in interactive mode \\
+     $rm -Rf$ & remove directories
+    \end{tabular}}
+  \end{tabular}
+  \\
+  \begin{tabular}{llll}
+   \multicolumn{4}{c}{Wild cards} \\
+   \hline
+   \verb!*!  & \multicolumn{3}{l}{can represent anything} \\
+   example   & file.*      & file*        & *file* \\
+   \verb!?!  & \multicolumn{3}{l}{can replace one character} \\
+   example   & file1?.a    & file?.a      & \\
+   \verb![]! & \multicolumn{3}{l}{can identify a category} \\
+   example   & file[1-2].a & file1[2-3].a &
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{The comand \tt man} \\
+   \hline
+   \verb!man command! & to enter the comand manual \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt f        & to move forward \\
+     \tt b        & to go backwards \\
+     \tt q        & to quit \\
+     \tt /pattern & to look for a pattern \\
+     \tt n        & next result \\
+     \tt N        & previous result
+    \end{tabular}} \\
+   \verb!man -k!     & to look for a command \\
+   \verb!man -f!     & to quickly know a command function \\
+   \verb!man -u!     & to update the database \tt man \\
+   \verb!man [1-8]!  & to read a specific manual \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     $1$ & general commands \\
+     $2$ & kernel system calls \\
+     $3$ & library functions \\
+     $4$ & special files \\
+     $5$ & configurations files \\
+     $6$ & games \\
+     $7$ & various files \\
+     $8$ & administrative commands \\
+    \end{tabular}} \\
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{The command \tt info} \\
+   \hline
+   \verb!info! & similar to the command \tt man \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt PagUp   & previous page \\
+     \tt PagDown & next page \\
+     \tt b       & first page \\
+     \tt e       & last page \\
+     \tt n       & next level \\
+     \tt p       & previous level \\
+     \tt ]       & next sub level \\
+     \tt [       & previous sub level \\
+     \tt u       & up a level \\
+     \tt d       & home directory \\
+     \tt m       & menu \\
+     \tt i       & to search in the titles \\
+     \tt s       & to search \\
+     \tt ?       & to ask for help \\
+     \tt q       & to quit
+    \end{tabular}} \\
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{General commands} \\
+   \verb!whereis! & to find a command path \\
+   \verb!whatis!  & similar to \tt man -f \\
+   \verb!apropos! & similar to \tt man -k \\
+   \verb!which!   & to know which command is used \\
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Building blocks} \\
+   \hline
+   \verb!a; b!    & to execute several comands \\
+   \verb!a && b!  & to execute several commands only if the preceding succeeded \\
+   \verb!a || b!  & to execute several commands only if the preceding failed \\
+   \verb!a | b!   & to use a command's output as input for the following \\
+   \verb!a > b!   & to redirect the output to a file \\
+   \verb!a >> b!  & to append output to a file \\
+   \verb!$(a)!    & to use a command's output \\
+   \verb!a < b!   & to use a file as input for a command
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Visualizing a file} \\
+   \hline
+   \verb!cat!  & to visualize a file in stdout \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt cat file1 file2 > file3 & concatenate 2 files in a third \\
+     \tt cat -n file1 file2      & concatenate with line numbers \\
+    \end{tabular}} \\
+   \verb!less! & to visualize a file one page at the time \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt /pattern & to search a pattern \\
+     \tt n        & next result \\
+     \tt N        & previous result \\
+     \tt v        & edit 
+    \end{tabular}} \\
+   \verb!head!    & to visualize the first 10 lines of a file(s) \\
+   \verb!head -n! & to visualize the first n lines of a file(s) \\
+   \verb!tail!    & opposite of \tt head 
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Printing processes} \\
+   \hline
+   \verb!lpstat! & to print cups status information \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt -p & list all the printers \\
+     \tt -d & list default printer \\
+     \tt -s & list printers's connection type \\
+     \tt -t & list all printers's informations
+    \end{tabular}} \\
+   \verb!lpr!    & to print files \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt -P & to use any printer \\
+     \tt -\# & to print more copies
+    \end{tabular}} \\
+   \verb!lpq!    & to list printing queues \\
+   \verb!lprm!   & to delete a printing process
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Archiving and compressing}\\
+   \\
+%   \verb!zip!     & to compress file(s)/directory(ies) in one \emph{zip} file \\
+%   \multicolumn{2}{l}{
+%    \begin{tabular}{ll}
+%     \tt -[0-9] & compression level \\
+%     \tt -e     & with a secure password \\
+%    \end{tabular}} \\
+%   \verb!unzip!   & to extract \emph{*.zip} files \\
+%   \multicolumn{2}{l}{
+%    \begin{tabular}{ll}
+%     \tt -l & to list files \\
+%     \tt -t & to test extraction 
+%    \end{tabular}} \\
+   \verb!gzip!    & to compress file(s)/directory(ies) in one \emph{gzip} file \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt -r     & recursive compression \\
+     \tt -[0-9] & compression level
+    \end{tabular}} \\
+   \verb!gunzip!  & to extract \emph{*.gzip} files \\
+%   \verb!bzip2!   & to compress file(s)/directory(ies) in one \emph{bz2} file \\
+%   \verb!bunzip2! & to extract \emph{*.bz2} files \\
+   \verb!tar!     & to compress file(s)/directory(ies) in one \emph{tar} file \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt -cf   & to archive file(s) \\
+     \tt -zcvf & to compress file(s)/directory(ies) (also gzip) \\
+     \tt -zvtf & to test a compressed file (also gzip) \\
+     \tt -zxvf & to extract a file
+    \end{tabular}} \\
+   \multicolumn{2}{l}{e.g.: \tt tar -cf file | gzip -c > file.tar.gz}
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{Easily finding informations} \\
+   \hline
+   \verb!locate!   & to search a file \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt -i & to ignore case \\
+     \tt -n & to show only the first n results
+    \end{tabular}} \\
+   \verb!updatedb! & to update the database \\
+   \verb!grep!     & to find a pattern \\
+   \multicolumn{2}{l}{e.g.: \tt grep pattern path} \\
+   \multicolumn{2}{l}{
+    \begin{tabular}{ll}
+     \tt '' & to search for more words \\
+     \tt -R & to search in several directories \\
+     \tt -i & to ignore case \\
+     \tt -w & to search a word and not a pattern \\
+     \tt -n & to also show the line number of the resuts \\
+     \tt -A & to show lines after the pattern \\
+     \tt -B & to show lines before the pattern \\
+     \tt -C & to show lines before and after the pattern \\
+     \tt -v & to search the lines without the pattern \\
+     \tt -l & to list the files where the pattern was found
+    \end{tabular}} \\
+   \multicolumn{2}{l}{\textbf{TIP:} wild cards apply to \tt grep}
+  \end{tabular}
+  \\
+  \begin{tabular}{l l}
+   \multicolumn{2}{c}{Command \tt find} \\
+   \hline
+   \multicolumn{2}{l}{e.g.: \tt find path pattern} \\
+   \verb!-name!    & to find a file by its name \\
+   \verb!-user!    & to find a file by its owner \\
+   \verb!-group!   & to find a file by its group \\
+   \verb!-size!    & to find a file by its size (k,M,G) \\
+   \verb!-type!    & to find a file by its type (f,d,l,b,c,p,s) \\
+   \verb!-a!       & to show results only if everything is true \\
+   \verb!-o!       & to show results even if only one is true \\
+   \verb!-n!       & to show results only if none is true \\
+   \verb!-exec!    & to execute a command on all results \\
+   \verb!- fprint! & to send results to a file
+  \end{tabular}
+  \\
+  \begin{tabular}{ll}
+   \multicolumn{2}{c}{The shell} \\
+   \hline
+   \verb=history=                 & to list lasts commands \\
+   \verb=!!=                      & to execute last command \\
+   \verb=![##]=                   & to execute commamd \verb!##! \\
+   \verb=!string=                 & to execute last command corresponding to \tt string \\
+   \verb=alias=                   & to list all aliases \\
+   \verb=alias aliasnm=           & to show \tt aliasnm \\
+   \verb!alias aliasnm='command'! & to create a temporary alias \\
+   \multicolumn{2}{l}{\textbf{TIP:} to make an alias permanent add it to \tt .bash.aliases} \\
+   \verb!unalias!                 & to remove an alias \\
+   \verb!ln file link!            & to make links between files \\
+  \end{tabular}
+
+\end{multicols}
+
+\end{document}

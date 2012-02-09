@@ -1,0 +1,260 @@
+\documentclass[a4paper,10pt,landscape]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+  { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+  {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+  }
+
+\pagestyle{empty}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries\underline}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\underline}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\textit}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+
+\begin{document}
+
+\raggedright
+\scriptsize
+\begin{multicols}{3}
+  
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+ \Large{\textbf{\emph{Gnuplot} CheatSheet}}
+% \Large{\textbf{\emph{Gnuplot} CheatSheet} \footnote{Paolo Gradassi, \today}}
+\end{center}
+
+%Current \emph{gnuplot} version 4.2
+
+\section{Introduction}
+ \subsection{Useful Websites}
+  \emph{gnuplot} \verb!Official Website:! \url{http://www.gnuplot.info/ } \\
+  \verb!Kawano Website:! \\ \url{http://t16web.lanl.gov/Kawano/gnuplot/index-e.html}
+ \subsection{Notation}
+  The \verb!#! in this document indicates a number, except in the last section.
+  The \verb!{x|y|z}! indicates that the command name can either start with an x, an y or a z.
+
+\section{Basic Commands}
+ \subsection{Variables \& Functions}
+  \begin{tabular}{ll}
+   to assign a value to a variable          & \verb!> a=#!                                \\
+   to know the value of a variable          & \verb!> print a!                            \\
+   to define a function                     & \verb!> f(x)=a*sin(x)!                      \\
+   to evaluate the value of a function      & \verb!> print f(#)!         
+  \end{tabular}
+ \subsection{Basic Plotting Commands}
+  \begin{tabular}{ll}
+   to plot a 2D function                    & \verb!> pl f(x)!                            \\
+   to plot more functions                   & \verb!> pl sin(x),cos(x),tan(x)!            \\
+    ~~~ or with                             & \verb!> pl sin(x)!                          \\
+    ~~~ and then                            & \verb!> repl cos(x)!                        \\
+   to plot a 3d function:                   & \verb!> spl sin(x)*sin(y)!                  \\
+   to replot previous graph(s)              & \verb!> replot!                             \\
+   to clear graph window                    & \verb!> clear! 
+  \end{tabular}
+
+\section{Plotting Options}
+ \subsection{Possible Styles}
+ \begin{tabular}{ll}
+  to plot with lines                        & \verb!> pl f(x) w l!                        \\
+  to plot with dots                         & \verb!> pl f(x) w d!                        \\
+  to plot with points                       & \verb!> pl f(x) w p!                        \\
+  to plot with line and points              & \verb!> pl f(x) w lp!                       \\
+  to plot with steps                        & \verb!> pl f(x) w st!                       \\
+  to plot with impulse                      & \verb!> pl f(x) w im!                       \\
+  to plot with vectors                      & \verb!> pl 'file.dat' w vec!                \\
+  to plot with errorbars                    & \verb!> pl 'file.dat' w {x|y|z}err!
+ \end{tabular}
+
+ To use the \emph{vectors}'s style \emph{gnuplot} needs to know not only (x,y) but also (dx,dy) so that the vector will go from (x,y)
+ to (x+dx,y+dy). \\
+ To use the \emph{errorbar}'s style \emph{gnuplot} needs to know not only (x,y) but also (error).
+ \subsection{Line/Point Options}
+  The line options depend on the terminal(\emph{term}) you are using.
+  \begin{tabular}{ll}
+   to change the color/type of the line/points & \verb!> pl f(x) w l lt #!  \\
+   to change the width of the line             & \verb!> pl f(x) w l lw #!
+  \end{tabular}
+
+  To change the size of the points use \verb!> set pointsize #! \\
+  \textbf{Tip:} to know beforehand the style available in your current \emph{term}, use the command \emph{test}. 
+ \subsection{Various Settings}
+  \begin{tabular}{p{4.5cm} l}
+   to set a graph title                     & \verb!> set tit ''!                       \\
+   to set a plot                            & \verb!> pl f(x) ti 'function'!            \\
+   to remove the legend                     & \verb!> unset key!                        \\
+   to change legend's position              & \verb!> set key (right bottom)!           \\
+    ~~~ or with                             & \verb!> set key (#x,#y)!                  \\
+   to set axis label                        & \verb!> set {x|y|z}label 'X-axis'!         \\
+   to set ranges                            & \verb!> set {x|y|z}range[-5:5]!            \\
+   to set a logaritmic scale                & \verb!> set logscale!                     \\
+   to show axis                             & \verb!> set {x|y|z}zeroaxis!               \\
+   to set view and scale (3D)               & \verb!> set view #,#,#,#!                 \\
+   \multicolumn{2}{l}{(view parameters are: rotx,rotz,scale[0:1],scalez[0:1])}          \\
+   to show the grid                         & \verb!> set grid!                         \\
+   to set tics                              & \verb!> set {x|y|z}tics #dx!               \\
+    ~~~ or with                             & \verb!> set {x|y|z}tics #xi,#dx!           \\
+    ~~~ or with                             & \verb!> set {x|y|z}tics #xi,#dx,#xf!       \\
+   to set intermediate tics                 & \verb!> set m{x|y|z}tics #dx!              \\
+   to undo all the settings                 & \verb!> reset!                            \\
+   to unset a single command                & \verb!> unset command_name!               \\
+   to know command value(s)                 & \verb!> show comand_name! 
+  \end{tabular}
+ \subsection{Multiplot}
+  To plot more graphs on the same window: \\
+  \verb!> set multiplot!                  \\
+  \verb!> set origin (#x,#y)!             \\
+  \verb!> pl 'file.dat'!
+ \subsection{Writing on the Graph}
+  \begin{tabular}{ll}
+   to draw an arrow                         & \verb!> set arrow from (#x,#y,#z) to (#x,#y,#z)! \\
+   to write on the graph                    & \verb!> set label 'text' at (#x,#y,#z)!
+  \end{tabular}
+ \subsection{3D Options}
+  \begin{tabular}{p{4.5cm} l}
+   to move the Z-axis on the XY plane       & \verb!> set ticslevel 0!                    \\
+   to modify mesh size                      & \verb!> set isosample #!                    \\
+   to differentiate hidden lines            & \verb!> set hidden3d!                       \\
+   to enable \emph{contour}                 & \verb!> set contour!                        \\
+   to modify \emph{contour} options         & \verb!> set cntparam levels #!              \\
+   to remove \emph{contour}'s legend        & \verb!> unset clabel!                       \\
+   to only show \emph{contour}              & \verb!> unset surface!                      \\
+   to enable \emph{pm3d} colored mapping    & \verb!> set pm3d!                           \\
+   to shift \emph{pm3d}'s map on the XY-plane& \verb!> set pm3d map!                      \\
+   to use grayscale/colors                  & \verb!> set palette gray/color!             \\
+   to select color formulae                 & \verb!> set palette rgbformulae #,#,#!      \\
+   \multicolumn{2}{l}{(rgbformulae red[0:36],green[0:36],blue[0:36])}                     \\
+   to define a color scale                  & \verb!> set palette defined (# '',...)!     \\
+   \multicolumn{2}{l}{(defined (z-value1 'color1',z-value2 'color2', \dots))}
+  \end{tabular}
+
+
+\section{Terminal Type}
+ Even though the default terminal usuallya are \emph{wxt} or \emph{x11}, there are many other terminals available.
+ \subsection{Postscript}
+  To save the graph in a postscript format (figure.eps):
+  \begin{tabular}{p{3cm} p{5cm}}
+   \verb!> set term post col enh! & (to enable \emph{color} and special characters) \\
+   \verb!> set out 'figure.eps'! & \\
+   \verb!> replot! &
+  \end{tabular}
+  \\
+  \textbf{Note:} The Greek letters can be displayed by \verb!'{/Symbol ?}'!, where ? belongs to [A:Z] and [a:z].
+ \subsection{Table}
+  To save the data of a graph in a file:\\
+  \begin{tabular}{l}
+   \verb!> set term table!     \\
+   \verb!> set out 'file.dat'! \\
+   \verb!> replot!
+  \end{tabular}
+ \subsection{Terminal Options}
+  Some \emph{terminal} windows options are:\\
+  \begin{tabular}{l l}
+   to open more term windows       & \verb!> set term [term_type] #      ! \\
+   to avoid window from closing    & \verb!> set term [term_type] persist! \\
+   to avoid window from raising    & \verb!> set term [term_tyor] noraise!
+  \end{tabular}
+
+\section{Data Files}
+ \subsection{Sets \& Blocks}
+  \begin{tabular}{l p{7cm}}
+   set:   & defined by \textbf{single} empty lines present in the \emph{data file} \\
+   block: & defined by \textbf{double} empty lines present in the \emph{data file}
+  \end{tabular}
+  \subsubsection{Sets}
+   \emph{Sets} are interpreted by the plotting option \emph{with lines}:
+   \begin{tabular}{l p{7cm}}
+    in 2D & lines will connect only dots belonging to a \emph{set}. \\
+    in 3D & if the \emph{sets} have different lengths, the lines will connect only dots belonging to a \emph{set}. \\
+          & if the \emph{sets} have the same lengths, the lines will also interconnect the $n-th$ element of each set.
+   \end{tabular}
+  \subsubsection{Blocks}
+   \emph{Blocks} are interpreted by the \emph{index} option.
+ \subsection{Data Files Options}
+  \subsubsection{Index}
+   The option \emph{index} allows to select a specific \emph{blocks} from the data file: \\
+   \verb!> pl 'file.dat' i #:#!\\
+   (the first \emph{set} number is a $0$)
+  \subsubsection{Using}
+   The option \emph{using} allows to select specific columns to plot:\\
+   \verb!> pl 'file.dat' u #:#!\\
+   (the first column number is a $1$)
+  \subsubsection{Every}
+   The option \emph{every} allows to select any line from the data file even if no blocks are present:
+   \verb!> pl 'file.dat' every I:J:K:L:M:N!
+   \begin{tabular}{l @: l | l @: l}
+    I & line increment & J & data block increment \\
+    K & first line & L & first data block \\
+    M & last line & N & last data block
+   \end{tabular}
+   \\
+   (the first block number is a $0$, the first line number is a $1$)
+
+\section{Shell Commands}
+ To use unix commands in gnuplot there are two possibilities:
+ \begin{tabular}{l p{6.5cm}}
+  \textbf{Command} & \textbf{Description} \\
+  \hline
+  \verb!> shell! & will create a temporary \emph{shell} environment in \emph{gnuplot} \\
+  \hline
+  \verb=!=       & will allow the use of any \emph{shell} commands (e.g \verb=!ls=) from within \emph{gnuplot} except \verb!cd! and \verb!pwd! that are already working in the \emph{gnuplot} environment (e.g \verb!cd "/home/darth"!)
+ \end{tabular}
+
+
+\section{Scripts}
+ A \emph{script} is a file that contains a list of instructions that will be executed by \emph{gnuplot}. \verb!> save 'script.gnu'! enables to quickly create a \emph{script} from your last commands. Otherwise, once you have written all your commands in a file you can either:
+ \begin{tabular}{ll}
+  to run the script from inside \emph{gnuplot}  & \verb!> load 'script.gnu'! \\
+  to run the script from outside \emph{gnuplot} & \verb!$ gnuplot script.gnu!
+ \end{tabular}
+ \\
+ \textbf{Tip:} when running the script from the shell use the command \verb!pause -1! to avoid the figure to close immediately
+
+\section{Useful Characters}
+ \begin{tabular}{lll}
+           & \textbf{Description}                       & \textbf{Example}                              \\
+  \verb!\! & to continue on another line:               & \verb!> pl 'file01.dat',\!                    \\
+           &                                            & \verb!>    'file02.dat',\!                    \\
+           &                                            & \verb!>    'file03.dat'!                      \\
+  \verb!#! & to comment a line (e.g. in a script)       & \verb!> # this is a comment!                  \\
+  \verb!$! & to operate with columns                    & \verb!> pl 'file' u 1:(2*$3+$4)!              \\
+  \verb!a**b! & to obtain the b-th power of a           & \verb!> f(x)=sin(x)**2!                                                
+  \end{tabular}
+
+\end{multicols}
+
+\end{document}
